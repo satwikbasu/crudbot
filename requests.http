@@ -1,0 +1,22 @@
+### GET request to example server
+GET http://localhost:8080
+
+### GET request to display all note files data
+GET http://localhost:8080/api/v1/note-file
+
+### GET request to display note files data by id
+GET http://localhost:8080/api/v1/note-file/1
+
+### DELETE request to delete note files data by id
+DELETE http://localhost:8080/api/v1/note-file/1
+
+### POST request to insert note files data
+POST http://localhost:8080/api/v1/note-file
+Content-Type: application/json
+
+{
+  "filename": "My Second Note",
+  "content": "This is the content of my second note.",
+  "pinned": false,
+  "sourceUrl": "https://example2.com"
+}
