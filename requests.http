@@ -5,7 +5,7 @@ GET http://localhost:8080
 GET http://localhost:8080/api/v1/note-file
 
 ### GET request to display note files data by id
-GET http://localhost:8080/api/v1/note-file/1
+GET http://localhost:8080/api/v1/note-file/2
 
 ### DELETE request to delete note files data by id
 DELETE http://localhost:8080/api/v1/note-file/1
@@ -15,8 +15,19 @@ POST http://localhost:8080/api/v1/note-file
 Content-Type: application/json
 
 {
-  "filename": "My Second Note",
-  "content": "This is the content of my second note.",
+  "filename": "My First Note",
+  "content": "This is the content of my first note.",
   "pinned": false,
-  "sourceUrl": "https://example2.com"
+  "sourceUrl": "https://example1.com"
+}
+
+### PUT request to update an existing note file by id
+PUT http://localhost:8080/api/v1/note-file/3
+Content-Type: application/json
+
+{
+  "filename": "Updated Note Title",
+  "content": "This is the updated content of my note.",
+  "pinned": true,
+  "sourceUrl": "https://updated-example.com"
 }

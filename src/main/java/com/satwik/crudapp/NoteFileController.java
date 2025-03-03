@@ -21,8 +21,8 @@ public class NoteFileController {
     }
 
     @GetMapping("{id}")
-    public NoteFile getNoteFilesbyId(@PathVariable Long id) {
-        return noteFileService.getNoteFilesbyId(id);
+    public NoteFile getNoteFileById(@PathVariable Long id) {
+        return noteFileService.getNoteFileById(id);
     }
 
     @PostMapping
@@ -34,4 +34,10 @@ public class NoteFileController {
     public void deleteNoteFile(@PathVariable Long id){
         noteFileService.deleteNoteFile(id);
     }
+
+    @PutMapping("{id}")
+    public NoteFile updateNoteFile(@PathVariable Long id, @RequestBody NoteFile noteFile) {
+        return noteFileService.updateNoteFile(id, noteFile);
+    }
+
 }
