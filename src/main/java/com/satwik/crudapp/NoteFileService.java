@@ -10,9 +10,12 @@ import java.util.List;
 public class NoteFileService {
 
     private final NoteFileRepository noteFileRepo;
+    private final AiService aiService;
 
-    public NoteFileService(NoteFileRepository noteFileRepository) {
+    public NoteFileService(NoteFileRepository noteFileRepository,
+                           AiService aiService) {
         this.noteFileRepo = noteFileRepository;
+        this.aiService = aiService;
     }
 
     public List<NoteFile> getAllNoteFiles() {
@@ -35,12 +38,31 @@ public class NoteFileService {
     }
 
     public void insertNoteFile(NoteFile noteFile) {
-        noteFileRepo.save(noteFile);  // Works for both insert & update
+        try {
+            String prompt = """
+                Based on the note file content in: %s,
+                provide a summary of under 50 words to replace it.
+                The response should only contain the summary""".formatted(noteFile.getContent());
+
+            String chatResponse;
+            try {
+                chatResponse = aiService.chat(prompt);
+            } catch (Exception e) {
+                System.out.println("AI service failed: " + e.getMessage());
+                chatResponse = "Summary not available due to AI service error.";
+            }
+
+            noteFile.setSummary(chatResponse);
+            noteFileRepo.save(noteFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error inserting note file: " + e.getMessage());
+        }
     }
 
     public NoteFile updateNoteFile(Long id, NoteFile newNoteFile) {
         return noteFileRepo.findById(id).map(noteFile -> {
-            noteFile.setFilename(newNoteFile.getFilename());  // Example fields
+            noteFile.setFilename(newNoteFile.getFilename());
             noteFile.setContent(newNoteFile.getContent());
             return noteFileRepo.save(noteFile);
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,

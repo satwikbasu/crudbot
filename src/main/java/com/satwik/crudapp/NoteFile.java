@@ -34,7 +34,32 @@ public class NoteFile {
 
     private String sourceUrl; // If the note is saved from a link
 
+    @Column(columnDefinition = "TEXT")
+    private String summary; //Summary of note content
+
     /*Constructors*/
+
+    public NoteFile(String filename,
+                    Long id,
+                    String content,
+                    boolean pinned,
+                    Date createdAt,
+                    Date updatedAt,
+                    String sourceUrl,
+                    String summary) {
+        this.filename = filename;
+        this.id = id;
+        this.content = content;
+        this.pinned = pinned;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.sourceUrl = sourceUrl;
+        this.summary = summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
 
     public NoteFile() {
     }
@@ -57,9 +82,7 @@ public class NoteFile {
 
     /*Getters & Setters*/
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id;}
 
     public void setId(Long id) {
         this.id = id;
@@ -113,18 +136,27 @@ public class NoteFile {
         this.filename = filename;
     }
 
+    public String getSummary() { return summary; }
+
     /*Equals & HashCode*/
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         NoteFile noteFile = (NoteFile) o;
-        return pinned == noteFile.pinned && Objects.equals(id, noteFile.id) && Objects.equals(filename, noteFile.filename) && Objects.equals(content, noteFile.content) && Objects.equals(createdAt, noteFile.createdAt) && Objects.equals(updatedAt, noteFile.updatedAt) && Objects.equals(sourceUrl, noteFile.sourceUrl);
+        return pinned == noteFile.pinned &&
+                Objects.equals(id, noteFile.id) &&
+                Objects.equals(filename, noteFile.filename) &&
+                Objects.equals(content, noteFile.content) &&
+                Objects.equals(createdAt, noteFile.createdAt) &&
+                Objects.equals(updatedAt, noteFile.updatedAt) &&
+                Objects.equals(sourceUrl, noteFile.sourceUrl) &&
+                Objects.equals(summary, noteFile.summary);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, filename, content, pinned, createdAt, updatedAt, sourceUrl);
+        return Objects.hash(id, filename, content, pinned, createdAt, updatedAt, sourceUrl, summary);
     }
 }
 
